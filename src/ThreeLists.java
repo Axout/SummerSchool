@@ -59,10 +59,8 @@ public class ThreeLists {
         // Соединяем всё в одни список
         list1.addAll(list2);
         list1.addAll(list3);
-
         // Сортируем объединённый список
         Collections.sort(list1);
-
         // Вывод на консоль в формате, который требует проверяющая система
         for (Integer i : list1) {
             System.out.printf("%d ", i);
