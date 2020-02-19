@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -19,23 +20,30 @@ Sample Output 3:
  */
 public class PrintN {
     public static void main(String[] args) {
+        // считываем число
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
+        // запускаем нашу рекурсивную функцию
         printN(n);
-
-        //ArrayList<>
     }
     public static void printN(int n) {
-        //ArrayList<String> list = new ArrayList<>();
+        // создаём список
         ArrayList<Integer> list = new ArrayList<>();
+        // добавляем в список n раз число n
         for (int i = 0; i < n; i++) {
-            list.add(n); // to string!!!!!!!!!!!!!!!!
+            list.add(n);
         }
+        // после каждого вызова функции n уменьшаем на единицу
         n--;
+        // УСЛОВИЕ ОСТАНОВКИ РЕКУРСИИ:
+        // пока n больше нуля
         if (n > 0) printN(n);
+        // разворачиваем готовый список (чтобы был по возрастанию)
         Collections.reverse(list);
-        String str = list.toString();
-        //System.out.printf("%s", str);
-        System.out.print(str);
+        // для корректного вывода преобразуем список в массив и выводим результат
+        Object[] arr = list.toArray();
+        for (Object i : arr) {
+            System.out.print(i);
+        }
     }
 }
