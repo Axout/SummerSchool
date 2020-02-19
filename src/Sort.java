@@ -1,8 +1,19 @@
 import java.util.Random;
 import java.util.Scanner;
 /*
+﻿Реализуйте функцию сортировки массива по возрастанию.
+
 Самое короткое решение:
 java.util.Arrays.sort(a);
+
+*********************
+Sample Input 1:
+5
+5 1 2 4 3
+*********************
+Sample Output 1:
+1 2 3 4 5
+*********************
  */
 public class Sort {
     public static void main(String[] args) {
@@ -14,6 +25,7 @@ public class Sort {
         sort(arr);
         printArr(arr);
     }
+    // сортировка массива пузырьком
     public static void sort(int[] a) {
         for (int i = 0; i < a.length-1; i++) {
             for (int j = 0; j < a.length-i-1; j++) {
@@ -25,6 +37,7 @@ public class Sort {
             }
         }
     }
+    // наполнение массива случайными числами от 0 до 100
     public static int[] add(int[] arr) {
         Random r = new Random();
         for (int i = 0 ; i < arr.length; i++) {
@@ -35,6 +48,7 @@ public class Sort {
 //        }
         return arr;
     }
+    // вывод массива
     public static void printArr(int[] arr) {
         for (Integer i : arr) {
             System.out.printf("%d ", i);

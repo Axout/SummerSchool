@@ -5,18 +5,13 @@ import java.util.Scanner;
 
 /*
 Реализуйте процедуру, которая выводит на экран последовательность в соответствии с условием.
+*********************
 Sample Input 1:
-3
-Sample Output 1:
-122333
-Sample Input 2:
 4
-Sample Output 2:
+*********************
+Sample Output 1:
 1223334444
-Sample Input 3:
-2
-Sample Output 3:
-122
+*********************
  */
 public class PrintN {
     public static void main(String[] args) {
