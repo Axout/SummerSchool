@@ -1,3 +1,5 @@
+package _1_5_Lists;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -11,7 +13,6 @@ Sample Input 1:
 1 2 3 4 -2 -2 -2 -2
 2 5 4 3 9 7 8 1 7 12 16
 7 21 15 16 19 18
-*********************
 Sample Output 1:
 1 2 2 3 4 4 7 8 12 16 21
 *********************

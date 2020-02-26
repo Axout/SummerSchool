@@ -1,3 +1,5 @@
+package _1_4_Arrays_and_srings;
+
 import java.util.Scanner;
 
 /*

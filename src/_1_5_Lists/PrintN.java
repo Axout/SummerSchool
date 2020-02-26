@@ -1,5 +1,6 @@
+package _1_5_Lists;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -8,7 +9,6 @@ import java.util.Scanner;
 *********************
 Sample Input 1:
 4
-*********************
 Sample Output 1:
 1223334444
 *********************
@@ -21,6 +21,7 @@ public class PrintN {
         // запускаем нашу рекурсивную функцию
         printN(n);
     }
+
     public static void printN(int n) {
         // создаём список
         ArrayList<Integer> list = new ArrayList<>();

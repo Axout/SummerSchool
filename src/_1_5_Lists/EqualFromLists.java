@@ -1,3 +1,5 @@
+package _1_5_Lists;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,10 +30,10 @@ public class EqualFromLists {
         for (String i : arrStr1) { list1.add(Integer.parseInt(i)); }
         for (String i : arrStr2) { list2.add(Integer.parseInt(i)); }
 
-        for (int i = 0; i < list1.size(); i++) {
-            for (int j = 0; j < list2.size(); j++) {
-                if (list1.get(i).equals(list2.get(j))) {
-                    System.out.printf("%d ", list1.get(i));
+        for (Integer integer : list1) {
+            for (Integer value : list2) {
+                if (integer.equals(value)) {
+                    System.out.printf("%d ", integer);
                     break;
                 }
             }
