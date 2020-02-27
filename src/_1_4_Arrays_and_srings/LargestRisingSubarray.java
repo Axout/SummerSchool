@@ -1,6 +1,7 @@
 package _1_4_Arrays_and_srings;
-import java.util.Arrays;
+
 import java.util.Scanner;
+import org.apache.commons.lang3.StringUtils;
 
 /*
 Наибольший возрастающий срез массива
@@ -41,14 +42,45 @@ Sample Output 3:
  */
 public class LargestRisingSubarray {
     public static void main(String[] args) {
+        // считываем строку
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
-        System.out.println(n);
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) { arr[i] = in.nextInt(); }
-        Sort.printArr(arr);
 
-        String str = Arrays.toString(arr);
-        System.out.println(str);
+        // находим возрастающие срезы и разделяем их дефисами
+        String strSep = separateString(arr);
+        System.out.println("Строка после разделения:\n" + strSep);
+
+        // находим длину максимального среза (считаем кол-во пробелов срезе)
+        String[] slices = strSep.split("- ");
+        int maxCountSpace = 0;
+        for (String slice : slices) {
+            if (maxCountSpace < StringUtils.countMatches(slice, " ")) {
+                maxCountSpace = StringUtils.countMatches(slice, " ");
+            }
+        }
+        System.out.println("Длина максимально возрастающего среза = " + maxCountSpace);
+
+        // выводим все наибольшие возрастающие срезы (у которых число пробелов равно максимальному)
+        for (String slice : slices) {
+            if (StringUtils.countMatches(slice, " ") == maxCountSpace) {
+                System.out.println(slice);
+            }
+        }
+    }
+
+    public static String separateString(int[] arr) {
+        StringBuilder str = new StringBuilder();
+        str.append(arr[0]);
+        str.append(" ");
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] >= arr[i + 1]) {
+                str.append("- ");
+            }
+            str.append(arr[i+1]);
+            str.append(" ");
+        }
+        return str.toString();
     }
 }
