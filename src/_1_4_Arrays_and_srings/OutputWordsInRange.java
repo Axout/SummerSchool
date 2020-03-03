@@ -1,7 +1,5 @@
 package _1_4_Arrays_and_srings;
 
-import javax.swing.*;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /*

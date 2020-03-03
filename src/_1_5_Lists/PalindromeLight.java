@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 /*
+Легкий палиндром
 Дана строка. Из данной строки необходимо сделать палиндром следующим образом:
 Берем исходную строку и к ней добавляем ее же, но в обратном порядке.
 Например дано abcde, тогда ответ abcdeedcba
 *********************
 Sample Input 1:
 abcde
-*********************
+
 Sample Output 1:
 abcdeedcba
 *********************
