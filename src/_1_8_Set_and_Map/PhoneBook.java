@@ -4,6 +4,23 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/*
+Телефонная книга
+В телефонную книгу заносится имя и номер телефона абонента.
+У каждого абонента может быть несколько номеров. Но копии абонентов плодить нельзя.
+*********************
+Sample Input 1:
+Ivanov Ivan +79031234545
+Petrov Petr +79625552323
+Ivanov Ivan +79159998899
+Nikolaev Nikolay +79113335757
+
+Sample Output 1:
+IvanovIvan : +79031234545 +79159998899
+NikolaevNikolay : +79113335757
+PetrovPetr : +79625552323
+*********************
+ */
 public class PhoneBook {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);

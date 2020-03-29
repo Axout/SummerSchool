@@ -5,6 +5,13 @@ import java.util.TreeSet;
 
 /*
 Сделать из строки словать (список используемых букв).
+*********************
+Sample Input 1:
+fdjsfl;djs;ldjf;asldf ewopw
+
+Sample Output 1:
+a d e f j l o p s w
+*********************
  */
 public class StartSet {
     public static void main(String[] args) {
