@@ -1,7 +1,5 @@
 package _2_5_SortObjects;
 
-import _2_2_Methods_Fields.MainArray;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -67,6 +65,11 @@ public class SortPoints {
             this.x = x;
             this.y = y;
         }
+
+        @Override
+        public String toString() {
+            return "(" + x + "; " + y + ")";
+        }
     }
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -79,12 +82,12 @@ public class SortPoints {
         }
         // вывод точек до сортировки
         System.out.println("\nДо сортировки:");
-        for (Points p : points) System.out.println("(" + p.x + "; " + p.y + ")");
+        for (Points p : points) System.out.println(p);
         // сортировка точек
         Arrays.sort(points, Comparator.comparingInt(o-> (int) (Math.sqrt(o.x * o.x + o.y * o.y))));
         // вывод точек после сортировки
         System.out.println("\nПосле сортировки");
-        for (Points p : points) System.out.println("(" + p.x + "; " + p.y + ")");
+        for (Points p : points) System.out.println(p);
 
         // вывод двухмерного массива
         //printTwoArrays(arr);
