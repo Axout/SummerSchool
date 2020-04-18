@@ -59,7 +59,7 @@ Oleg 2
 *********************
  */
 public class SortStudents {
-    public static class Student {
+    protected static class Student {
         String name;
         int grade;
 
