@@ -125,6 +125,30 @@ public class Exams {
         }
     }
 
+    public static class School {
+        int number;
+        double aveMath, aveRus, aveInfo, aveAll;
+
+        public School(int number, double aveMath, double aveRus, double aveInfo, double aveAll) {
+            this.number = number;
+            this.aveMath = aveMath;
+            this.aveRus = aveRus;
+            this.aveInfo = aveInfo;
+            this.aveAll = aveAll;
+        }
+
+        @Override
+        public String toString() {
+            return "School{" +
+                    "number=" + number +
+                    ", aveMath=" + aveMath +
+                    ", aveRus=" + aveRus +
+                    ", aveInfo=" + aveInfo +
+                    ", aveAll=" + aveAll +
+                    '}';
+        }
+    }
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int N = in.nextInt();
@@ -148,36 +172,50 @@ public class Exams {
 
     public static void schoolReports(Student [] students) {
         System.out.println("Отчет по школам:");
-        int N = students.length;
-        int [][] arrMarks = new int[100][3];
-        double aveMath = 0;
-        double aveRus = 0;
-        double aveInfo = 0;
-        double aveAll = 0;
         Arrays.sort(students, Comparator.comparing((Student o) -> o.school));
+        ArrayList<School> schoolsList = new ArrayList<>();
 
-        int countDifSchools = 1;
+        schoolsList.add(new School(students[0].school, students[0].math, students[0].rus, students[0].info,
+                students[0].math + students[0].rus + students[0].info));
+
+        int countDifSchools = 0;
         int countSameSchools = 1;
-        for (int i = 1; i < N; i++) {
+        for (int i = 1; i < students.length; i++) {
             if (students[i].school == students[i-1].school) {
                 countSameSchools++;
-                arrMarks[countDifSchools][0] = arrayList.get(countDifSchools-1).math + students[i].math;
-                arrMarks[][1] = arrayList.get(countDifSchools-1).rus + students[i].rus;
-                arrMarks[][2] = arrayList.get(countDifSchools-1).info + students[i].info;
+                School newSchool = new School(
+                        students[i].school,
+                        schoolsList.get(countDifSchools).aveMath + students[i].math,
+                        schoolsList.get(countDifSchools).aveRus + students[i].rus,
+                        schoolsList.get(countDifSchools).aveInfo + students[i].info,
+                        schoolsList.get(countDifSchools).aveAll + students[i].math + students[i].rus + students[i].info);
+
+                schoolsList.set(countDifSchools, newSchool);
             }
             else {
-                System.out.println("Школ № " + arrayList.get(countDifSchools-1).school
-                        + ": " + countSameSchools + " штук(и)");
-                countSameSchools = 1;
+//                System.out.println("Школ № " + arrayList.get(countDifSchools-1).school
+//                        + ": " + countSameSchools + " штук(и)");
+//                countSameSchools = 1;
+                School newSchool = new School(
+                        schoolsList.get(countDifSchools).number,
+                        schoolsList.get(countDifSchools).aveMath / countSameSchools,
+                        schoolsList.get(countDifSchools).aveRus / countSameSchools,
+                        schoolsList.get(countDifSchools).aveInfo / countSameSchools,
+                        schoolsList.get(countDifSchools).aveAll / (countSameSchools * 3));
+                schoolsList.set(countDifSchools, newSchool);
 
-                arrayList.add(students[i]);
+                schoolsList.add(new School(students[i].school, students[i].math, students[i].rus, students[i].info,
+                        students[i].math + students[i].rus + students[i].info));
                 countDifSchools++;
+                countSameSchools = 1;
             }
         }
-        for (Student s : arrayList) {
-            System.out.println(s);
+
+        for (School school : schoolsList) {
+            System.out.println(school);
         }
-        System.out.println();
+
+
 
 //        for (Student s: students) {
 ////            System.out.print(String.format(Locale.ENGLISH,
