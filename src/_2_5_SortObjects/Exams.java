@@ -126,7 +126,9 @@ public class Exams {
     }
 
     public static class School {
-        int number, allMath, allRus, allInfo, total, countStud;
+        int number;
+        double allMath, allRus, allInfo, total;
+        int countStud;
 
         public School(Student student) {
             this.number = student.school;
@@ -168,40 +170,18 @@ public class Exams {
             String fullName = in.next() + " " + in.next();
             students[i] = new Student(fullName, Integer.parseInt(in.next()), Integer.parseInt(in.next()), Integer.parseInt(in.next()), Integer.parseInt(in.next()));
         } System.out.println();
-        System.out.println();
 
         // отчёт по городу
         cityReport(students);
 
         // отчёты по школам
+        // создание массива школ
         School [] schoolsArr = schoolReports(students);
+        // форматированный вывод школ
         printSchools(schoolsArr);
 
         // лучшие результаты
         theBestResults(students);
-
-
-    }
-
-    public static School [] schoolReports(Student [] students) {
-        Arrays.sort(students, Comparator.comparing(o -> o.school));
-        ArrayList<School> schoolsList = new ArrayList<>();
-        schoolsList.add(new School(students[0]));
-        int countSchools = 0;
-
-        for (int i = 1; i < students.length; i++) {
-            if (schoolsList.get(countSchools).number == students[i].school)
-                schoolsList.get(countSchools).addStudent(students[i]);
-            else {
-                schoolsList.add(new School(students[i]));
-                countSchools++;
-            }
-        }
-
-        School [] schoolsArr = new School[schoolsList.size()];
-        schoolsList.toArray(schoolsArr);
-
-        return schoolsArr;
     }
 
     public static void cityReport(Student [] students) {
@@ -219,6 +199,56 @@ public class Exams {
         System.out.print(String.format(Locale.ENGLISH,
                 "Отчет по городу: математика - %.1f, русский язык - %.1f, инфрматика - %.1f, общий средний балл - %.1f\n",
                 aveMath / N, aveRus / N, aveInfo / N, aveAll / (N * 3)));
+    }
+
+    public static School [] schoolReports(Student [] students) {
+        // для дальнейшего создания массива школ сгруппируем студентов по школам
+        Arrays.sort(students, Comparator.comparing(o -> o.school));
+        // массив школ
+        ArrayList<School> schoolsList = new ArrayList<>();
+        // создаём первую школу с первым студентом
+        schoolsList.add(new School(students[0]));
+        int countSchools = 0; // независимый от цикла счётчик школ - чтобы достать элемент из списка несколько раз в цикле
+        // создаём остальные школы и добавляем остальных студентов
+        for (int i = 1; i < students.length; i++) {
+            // если школа уже есть в списке, то добавляем к ней студента
+            if (schoolsList.get(countSchools).number == students[i].school)
+                schoolsList.get(countSchools).addStudent(students[i]);
+            else { // а если нет, тогда создаём новую школу и увеличиваем счётчик школ
+                schoolsList.add(new School(students[i]));
+                countSchools++;
+            }
+        }
+        // делим сумму баллов по предметам на кол-во студентов, т.е. получаем средние баллы
+        for (School s: schoolsList) {
+            s.allMath /= s.countStud;
+            s.allRus /= s.countStud;
+            s.allInfo /= s.countStud;
+            s.total /= (3 * s.countStud);
+        }
+        // для сортировки (см. задание) список to массив
+        School [] schoolsArr = new School[schoolsList.size()];
+        schoolsList.toArray(schoolsArr);
+
+        // Данные в отчете отсортированы по школам по общему среднему баллу по убыванию балла.
+        // В случае равенства среднего балла, школы сортируются по среднему баллу по предметам с приоритетами 1 для математики,
+        // 2 для русского языка, 3 для информатики.
+        Arrays.sort(schoolsArr, Comparator.comparing((School o) -> -o.total)
+                .thenComparing((School o) -> -o.allMath)
+                .thenComparing((School o) -> -o.allRus)
+                .thenComparing((School o) -> -o.allInfo)
+                .thenComparing((School o) -> -o.number));
+
+        return schoolsArr;
+    }
+
+    public static void printSchools(School [] schoolsArr) {
+        System.out.println("Отчет по школам:");
+        for (School s : schoolsArr) {
+            System.out.print(String.format(Locale.ENGLISH,
+                    "Школа № %d: математика - %.1f, русский язык - %.1f, инфрматика - %.1f, общий средний балл - %.1f\n",
+                    s.number, s.allMath, s.allRus, s.allInfo, s.total));
+        }
     }
 
     public static void theBestResults(Student [] students) {
@@ -248,19 +278,5 @@ public class Exams {
             i++;
         }
         while (students[0].info == students[i].info);
-    }
-
-    public static void printSchools(School [] schoolsArr) {
-        System.out.println("Отчет по школам:");
-        for (School s : schoolsArr) {
-            double aveMath = (double) s.allMath / s.countStud;
-            double aveRus = (double) s.allRus / s.countStud;
-            double aveInfo = (double) s.allInfo / s.countStud;
-            double aveTotal = (double) s.total / (3 * s.countStud);
-
-            System.out.print(String.format(Locale.ENGLISH,
-                    "Школа № %d: математика - %.1f, русский язык - %.1f, инфрматика - %.1f, общий средний балл - %.1f\n",
-                    s.number, aveMath, aveRus, aveInfo, aveTotal));
-        }
     }
 }
