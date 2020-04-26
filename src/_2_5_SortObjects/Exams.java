@@ -126,25 +126,34 @@ public class Exams {
     }
 
     public static class School {
-        int number;
-        double aveMath, aveRus, aveInfo, aveAll;
+        int number, allMath, allRus, allInfo, total, countStud;
 
-        public School(int number, double aveMath, double aveRus, double aveInfo, double aveAll) {
-            this.number = number;
-            this.aveMath = aveMath;
-            this.aveRus = aveRus;
-            this.aveInfo = aveInfo;
-            this.aveAll = aveAll;
+        public School(Student student) {
+            this.number = student.school;
+            this.allMath = student.math;
+            this.allRus = student.rus;
+            this.allInfo = student.info;
+            this.total = student.math + student.rus + student.info;
+            this.countStud = 1;
+        }
+
+        public void addStudent(Student student) {
+            this.allMath += student.math;
+            this.allRus += student.rus;
+            this.allInfo += student.info;
+            this.total += student.math + student.rus + student.info;
+            this.countStud++;
         }
 
         @Override
         public String toString() {
             return "School{" +
                     "number=" + number +
-                    ", aveMath=" + aveMath +
-                    ", aveRus=" + aveRus +
-                    ", aveInfo=" + aveInfo +
-                    ", aveAll=" + aveAll +
+                    ", allMath=" + allMath +
+                    ", allRus=" + allRus +
+                    ", allInfo=" + allInfo +
+                    ", total=" + total +
+                    ", countStud=" + countStud +
                     '}';
         }
     }
@@ -159,72 +168,40 @@ public class Exams {
             String fullName = in.next() + " " + in.next();
             students[i] = new Student(fullName, Integer.parseInt(in.next()), Integer.parseInt(in.next()), Integer.parseInt(in.next()), Integer.parseInt(in.next()));
         } System.out.println();
+        System.out.println();
 
         // отчёт по городу
         cityReport(students);
 
         // отчёты по школам
-        schoolReports(students);
+        School [] schoolsArr = schoolReports(students);
+        printSchools(schoolsArr);
 
         // лучшие результаты
         theBestResults(students);
+
+
     }
 
-    public static void schoolReports(Student [] students) {
-        System.out.println("Отчет по школам:");
-        Arrays.sort(students, Comparator.comparing((Student o) -> o.school));
+    public static School [] schoolReports(Student [] students) {
+        Arrays.sort(students, Comparator.comparing(o -> o.school));
         ArrayList<School> schoolsList = new ArrayList<>();
+        schoolsList.add(new School(students[0]));
+        int countSchools = 0;
 
-        schoolsList.add(new School(students[0].school, students[0].math, students[0].rus, students[0].info,
-                students[0].math + students[0].rus + students[0].info));
-
-        int countDifSchools = 0;
-        int countSameSchools = 1;
         for (int i = 1; i < students.length; i++) {
-            if (students[i].school == students[i-1].school) {
-                countSameSchools++;
-                School newSchool = new School(
-                        students[i].school,
-                        schoolsList.get(countDifSchools).aveMath + students[i].math,
-                        schoolsList.get(countDifSchools).aveRus + students[i].rus,
-                        schoolsList.get(countDifSchools).aveInfo + students[i].info,
-                        schoolsList.get(countDifSchools).aveAll + students[i].math + students[i].rus + students[i].info);
-
-                schoolsList.set(countDifSchools, newSchool);
-            }
+            if (schoolsList.get(countSchools).number == students[i].school)
+                schoolsList.get(countSchools).addStudent(students[i]);
             else {
-//                System.out.println("Школ № " + arrayList.get(countDifSchools-1).school
-//                        + ": " + countSameSchools + " штук(и)");
-//                countSameSchools = 1;
-                School newSchool = new School(
-                        schoolsList.get(countDifSchools).number,
-                        schoolsList.get(countDifSchools).aveMath / countSameSchools,
-                        schoolsList.get(countDifSchools).aveRus / countSameSchools,
-                        schoolsList.get(countDifSchools).aveInfo / countSameSchools,
-                        schoolsList.get(countDifSchools).aveAll / (countSameSchools * 3));
-                schoolsList.set(countDifSchools, newSchool);
-
-                schoolsList.add(new School(students[i].school, students[i].math, students[i].rus, students[i].info,
-                        students[i].math + students[i].rus + students[i].info));
-                countDifSchools++;
-                countSameSchools = 1;
+                schoolsList.add(new School(students[i]));
+                countSchools++;
             }
         }
 
-        for (School school : schoolsList) {
-            System.out.println(school);
-        }
+        School [] schoolsArr = new School[schoolsList.size()];
+        schoolsList.toArray(schoolsArr);
 
-
-
-//        for (Student s: students) {
-////            System.out.print(String.format(Locale.ENGLISH,
-////                    "Школа № %d: математика - %.1f, русский язык - %.1f, инфрматика - %.1f, общий средний балл - %.1f\n",
-////                    s.school, s.math, s.rus, s.info, 1000));
-//            System.out.printf("Школа № %d: математика - %d, русский язык - %d, инфрматика - %d, общий средний балл - %d\n",
-//                    s.school, s.math, s.rus, s.info, 1000);
-//        }
-
+        return schoolsArr;
     }
 
     public static void cityReport(Student [] students) {
@@ -273,9 +250,17 @@ public class Exams {
         while (students[0].info == students[i].info);
     }
 
-    public static void printStudent(Student [] students) {
-        for (Student s: students) {
-            System.out.println(s);
+    public static void printSchools(School [] schoolsArr) {
+        System.out.println("Отчет по школам:");
+        for (School s : schoolsArr) {
+            double aveMath = (double) s.allMath / s.countStud;
+            double aveRus = (double) s.allRus / s.countStud;
+            double aveInfo = (double) s.allInfo / s.countStud;
+            double aveTotal = (double) s.total / (3 * s.countStud);
+
+            System.out.print(String.format(Locale.ENGLISH,
+                    "Школа № %d: математика - %.1f, русский язык - %.1f, инфрматика - %.1f, общий средний балл - %.1f\n",
+                    s.number, aveMath, aveRus, aveInfo, aveTotal));
         }
     }
 }
